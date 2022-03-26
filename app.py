@@ -28,7 +28,6 @@ def index():
 
         message = request.form.get("message")
         error = ''
-        #predict_proba = ''
         predict = ''
 
         global Classifier
@@ -39,7 +38,6 @@ def index():
                 predict = Classifier.predict(vectorize_message)[0]
                 if predict == "ham":
                     predict = "not spam"
-                #predict_proba = Classifier.predict_proba(vectorize_message).tolist()
         except BaseException as inst:
             error = str(type(inst).__name__) + ' ' + str(inst)
         return jsonify(
@@ -49,6 +47,4 @@ def index():
     return render_template("form.html")
 
 if __name__ == '__main__':
-    #port = int(os.environ.get('PORT', 5000))
-    #app.run(host='0.0.0.0', port=port, debug=True, use_reloader=True)
     app.run()
