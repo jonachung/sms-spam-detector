@@ -28,7 +28,7 @@ def index():
 
         message = request.form.get("message")
         error = ''
-        predict_proba = ''
+        #predict_proba = ''
         predict = ''
 
         global Classifier
@@ -37,11 +37,13 @@ def index():
             if len(message) > 0:
                 vectorize_message = Vectorizer.transform([message])
                 predict = Classifier.predict(vectorize_message)[0]
-                predict_proba = Classifier.predict_proba(vectorize_message).tolist()
+                if predict == "ham":
+                    predict = "not spam"
+                #predict_proba = Classifier.predict_proba(vectorize_message).tolist()
         except BaseException as inst:
             error = str(type(inst).__name__) + ' ' + str(inst)
         return jsonify(
-                message=message, predict_proba=predict_proba,
+                message=message,
                 predict=predict, error=error)
 
     return render_template("form.html")
